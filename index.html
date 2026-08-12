@@ -39,9 +39,10 @@
   <header class="glass-nav text-white sticky top-0 z-50 transition-all">
     <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
       <div class="flex items-center gap-3.5">
-        <div class="w-11 h-11 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center font-extrabold text-base shadow-inner">
-          <i data-lucide="building-2" class="w-6 h-6 text-maroon-100"></i>
-        </div>
+        <div class="w-11 h-11 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-inner overflow-hidden">
+  <!-- Pastikan lu udah bikin folder 'img' dan masukin file 'logo-mpk.png' ke repo GitHub lu -->
+  <img src="img/logo-mpk.png" alt="Logo MPK" class="w-8 h-8 object-contain drop-shadow-md">
+</div>
         <div>
           <h1 class="font-bold text-lg leading-tight tracking-wide flex items-center gap-2">PORTAL ASPIRASI</h1>
           <p class="text-xs text-maroon-200 font-normal tracking-wider uppercase">MPK MAN 1 Bekasi</p>
@@ -118,10 +119,17 @@
                 <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-maroon-700"></i> Kelas *
               </label>
               <select id="input-kelas" required class="glass-input w-full px-4 py-3 rounded-2xl outline-none text-sm font-medium text-gray-800 bg-white/80 cursor-pointer">
-                <option value="10.1">10.1</option> <option value="10.2">10.2</option> <option value="10.3">10.3</option>
-                <option value="11.1">11.1</option> <option value="11.7">11.7</option> <option value="11.8">11.8</option>
-                <option value="12.1">12.1</option> <option value="12.2">12.2</option> <option value="12.3">12.3</option>
-              </select>
+  <option value="" disabled selected>Pilih Kelas...</option>
+  <optgroup label="Kelas 10">
+    <option value="10.1">10.1</option><option value="10.2">10.2</option><option value="10.3">10.3</option><option value="10.4">10.4</option><option value="10.5">10.5</option><option value="10.6">10.6</option><option value="10.7">10.7</option><option value="10.8">10.8</option><option value="10.9">10.9</option><option value="10.10">10.10</option>
+  </optgroup>
+  <optgroup label="Kelas 11">
+    <option value="11.1">11.1</option><option value="11.2">11.2</option><option value="11.3">11.3</option><option value="11.4">11.4</option><option value="11.5">11.5</option><option value="11.6">11.6</option><option value="11.7">11.7</option><option value="11.8">11.8</option><option value="11.9">11.9</option><option value="11.10">11.10</option>
+  </optgroup>
+  <optgroup label="Kelas 12">
+    <option value="12.1">12.1</option><option value="12.2">12.2</option><option value="12.3">12.3</option><option value="12.4">12.4</option><option value="12.5">12.5</option><option value="12.6">12.6</option><option value="12.7">12.7</option><option value="12.8">12.8</option><option value="12.9">12.9</option><option value="12.10">12.10</option>
+  </optgroup>
+</select>
             </div>
           </div>
 
@@ -190,6 +198,26 @@
       <!-- Container Mading -->
       <div id="mading-container" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
     </section>
+    <!-- MODAL SUKSES (Animasi Smooth) -->
+<div id="success-modal" class="fixed inset-0 bg-maroon-950/80 backdrop-blur-sm z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-all duration-500 ease-out p-4">
+  <div id="success-modal-content" class="glass-card bg-white/95 p-8 sm:p-10 rounded-[2rem] max-w-sm w-full text-center transform scale-90 translate-y-8 transition-all duration-500 delay-75 shadow-2xl border border-white">
+    
+    <!-- Icon Animasi -->
+    <div class="relative w-24 h-24 mx-auto mb-6">
+      <div class="absolute inset-0 bg-emerald-200 rounded-full animate-ping opacity-50"></div>
+      <div class="relative w-full h-full bg-gradient-to-tr from-emerald-400 to-emerald-500 text-white rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/30">
+        <i data-lucide="check" class="w-12 h-12"></i>
+      </div>
+    </div>
+
+    <h3 class="font-extrabold text-2xl text-gray-800 mb-2 tracking-tight">Aspirasi Terkirim!</h3>
+    <p class="text-sm text-gray-500 mb-8 leading-relaxed">Terima kasih atas masukanmu!<br>Tunggu tanggapan lebih lanjut di mading ya.</p>
+    
+    <button onclick="closeSuccessModal()" class="w-full py-4 bg-gray-900 hover:bg-black text-white font-bold rounded-2xl shadow-xl shadow-gray-900/20 transition-all hover:scale-[1.02] active:scale-[0.98] text-sm flex items-center justify-center gap-2">
+      <i data-lucide="layout-grid" class="w-4 h-4"></i> Lihat Mading Aspirasi
+    </button>
+  </div>
+</div>
   </main>
 
   <footer class="bg-maroon-900 text-maroon-200 py-8 text-center text-xs mt-16 z-10 relative">
