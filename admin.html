@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - MPK MAN 1 Bekasi</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <script>
+    tailwind.config = { theme: { extend: { colors: { maroon: { 700: '#800000', 800: '#600000', 900: '#400000' } } } } }
+  </script>
+  <link rel="stylesheet" href="css/custom.css">
+</head>
+<body class="bg-gray-50 min-h-screen text-gray-800 relative">
+
+  <!-- Ambient Blobs -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+    <div class="absolute top-0 right-0 w-96 h-96 bg-maroon-300/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-amber-200/20 rounded-full blur-3xl"></div>
+  </div>
+
+  <header class="bg-maroon-800 text-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3.5 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-maroon-900/80 text-amber-300 font-bold text-xs rounded-xl border border-maroon-700/80">
+          <i data-lucide="settings" class="w-3.5 h-3.5"></i> ADMIN PANEL
+        </span>
+        <h1 class="font-bold text-base tracking-wide hidden sm:block">Dashboard Moderasi MPK</h1>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="text-xs hover:underline text-maroon-200 flex items-center gap-1.5">
+          <i data-lucide="globe" class="w-3.5 h-3.5"></i> Web Publik
+        </a>
+        <button id="btn-logout" class="bg-red-600 hover:bg-red-700 text-white px-3.5 py-1.5 rounded-xl text-xs font-semibold shadow-md flex items-center gap-1.5 transition-all">
+          <i data-lucide="log-out" class="w-3.5 h-3.5"></i> Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MODAL LOGIN ADMIN -->
+  <div id="login-modal" class="fixed inset-0 bg-maroon-950/80 backdrop-blur-md flex items-center justify-center z-50 p-4">
+    <div class="glass-card bg-white/90 p-8 rounded-3xl max-w-sm w-full text-center border border-white">
+      <div class="w-14 h-14 bg-maroon-50 text-maroon-700 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-maroon-100 shadow-inner">
+        <i data-lucide="lock" class="w-7 h-7"></i>
+      </div>
+      <h3 class="font-extrabold text-xl text-maroon-800 mb-1">Login Admin MPK</h3>
+      <p class="text-xs text-gray-500 mb-6 leading-relaxed">Masukkan sandi untuk mengelola data.</p>
+      
+      <div class="space-y-4 text-left">
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1.5">Password Admin</label>
+          <input type="password" id="input-password" class="w-full px-4 py-3 rounded-2xl border border-gray-300 focus:border-maroon-700 outline-none text-sm transition-all">
+          <p id="login-error" class="hidden text-xs text-red-600 font-medium mt-1.5 flex items-center gap-1">
+            <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Password salah.
+          </p>
+        </div>
+        <button id="btn-login" class="w-full py-3.5 bg-maroon-700 hover:bg-maroon-800 text-white font-semibold rounded-2xl shadow-lg transition-all text-sm flex items-center justify-center gap-2">
+          <span>Masuk</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <main id="admin-content" class="hidden max-w-7xl mx-auto px-4 py-8 space-y-6">
+    
+    <div class="glass-card p-6 rounded-3xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div>
+        <h2 class="text-xl font-extrabold text-gray-800 tracking-tight">Rekapitulasi Aspirasi</h2>
+        <p class="text-xs text-gray-500 mt-0.5">Kelola status moderasi dan berikan tindak lanjut resmi.</p>
+      </div>
+      <button id="btn-export-excel" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-3 rounded-2xl text-sm shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98]">
+        <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+        <span>Download Laporan Excel</span>
+      </button>
+    </div>
+
+    <!-- 4 KPI CARDS -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="glass-card p-5 rounded-3xl"><p class="text-xs font-semibold text-gray-500 mb-2">Total Masuk</p><h3 id="kpi-total" class="text-3xl font-extrabold text-maroon-800">...</h3></div>
+      <div class="glass-card p-5 rounded-3xl border-amber-200 bg-amber-500/5"><p class="text-xs font-semibold text-amber-700 mb-2">Pending</p><h3 id="kpi-pending" class="text-3xl font-extrabold text-amber-800">...</h3></div>
+      <div class="glass-card p-5 rounded-3xl border-blue-200 bg-blue-500/5"><p class="text-xs font-semibold text-blue-700 mb-2">Di Mading</p><h3 id="kpi-approved" class="text-3xl font-extrabold text-blue-800">...</h3></div>
+      <div class="glass-card p-5 rounded-3xl border-emerald-200 bg-emerald-500/5"><p class="text-xs font-semibold text-emerald-700 mb-2">Selesai</p><h3 id="kpi-selesai" class="text-3xl font-extrabold text-emerald-800">...</h3></div>
+    </div>
+
+    <div class="glass-card rounded-3xl overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-maroon-800 text-white text-xs font-semibold uppercase tracking-wider">
+              <th class="p-4 w-14">No</th>
+              <th class="p-4">Pengirim & Kelas</th>
+              <th class="p-4">Kategori & Isi</th>
+              <th class="p-4">Status & Tindak Lanjut MPK</th>
+              <th class="p-4 text-center">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="table-body" class="divide-y divide-gray-200/60 bg-white/40">
+            <!-- Data Masuk ke Sini -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

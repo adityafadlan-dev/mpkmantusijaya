@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aspirasi Siswa - MPK MAN 1 Bekasi</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            maroon: {
+              50: '#fdf2f2', 100: '#fde8e8', 200: '#fbd5d5', 300: '#f8b4b4',
+              400: '#f98080', 500: '#e02424', 600: '#991b1b', 700: '#800000',
+              800: '#600000', 900: '#400000',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <link rel="stylesheet" href="css/custom.css">
+</head>
+<body class="min-h-screen flex flex-col justify-between relative selection:bg-maroon-700 selection:text-white">
+
+  <!-- Ambient Glowing Blobs -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-maroon-400/15 rounded-full blur-3xl animate-float"></div>
+    <div class="absolute top-1/3 -right-40 w-[30rem] h-[30rem] bg-amber-300/20 rounded-full blur-3xl animate-float-delayed"></div>
+    <div class="absolute -bottom-40 left-1/3 w-96 h-96 bg-maroon-600/10 rounded-full blur-3xl animate-float"></div>
+  </div>
+
+  <!-- GLASS NAV HEADER -->
+  <header class="glass-nav text-white sticky top-0 z-50 transition-all">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3.5">
+        <div class="w-11 h-11 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center font-extrabold text-base shadow-inner">
+          <i data-lucide="building-2" class="w-6 h-6 text-maroon-100"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-lg leading-tight tracking-wide flex items-center gap-2">PORTAL ASPIRASI</h1>
+          <p class="text-xs text-maroon-200 font-normal tracking-wider uppercase">MPK MAN 1 Bekasi</p>
+        </div>
+      </div>
+      <a href="admin.html" class="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-semibold border border-white/20 transition-all duration-300 backdrop-blur-md shadow-sm hover:scale-105">
+        <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+        <span class="hidden sm:inline">Login Admin</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="bg-gradient-to-b from-maroon-900 via-maroon-800 to-maroon-700 text-white py-16 px-4 text-center relative overflow-hidden shadow-md">
+    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]"></div>
+    <div class="max-w-3xl mx-auto relative z-10 space-y-4">
+      <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-white/10 backdrop-blur-md text-maroon-100 rounded-full text-xs font-medium border border-white/20 shadow-sm">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-300"></i> Proker Resmi MPK MAN 1 Bekasi
+      </span>
+      <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">Suarakan Aspirasimu Demi Madrasah Yang Lebih Baik</h2>
+      <p class="text-maroon-100 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto font-normal opacity-90">
+        Setiap kritik, saran, dan ide kreatifmu sangat berharga. Kami siap menampung dan menjembatani aspirasimu langsung kepada pihak sekolah secara transparan.
+      </p>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="max-w-5xl mx-auto px-4 py-10 flex-1 w-full">
+    
+    <!-- TABS -->
+    <div class="flex justify-center gap-3 mb-10">
+      <button id="btn-tab-form" class="flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-sm bg-maroon-700 text-white shadow-lg shadow-maroon-700/25 transition-all duration-300 scale-[1.02]">
+        <i data-lucide="file-edit" class="w-4 h-4"></i>
+        <span>Kirim Aspirasi</span>
+      </button>
+      <button id="btn-tab-mading" class="flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-sm bg-white/70 text-gray-600 border border-gray-200/80 hover:bg-white hover:text-maroon-700 transition-all duration-300">
+        <i data-lucide="layout-grid" class="w-4 h-4"></i>
+        <span>Mading Aspirasi (Publik)</span>
+      </button>
+    </div>
+
+    <!-- ALERT SUKSES -->
+    <div id="alert-success" class="hidden max-w-2xl mx-auto mb-8 p-5 rounded-3xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-900 flex items-center gap-4 shadow-sm backdrop-blur-md transition-all">
+      <div class="w-10 h-10 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-md">
+        <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <h4 class="font-bold text-sm text-emerald-800">Aspirasi Berhasil Terkirim!</h4>
+        <p class="text-xs text-emerald-700 mt-0.5">Terima kasih atas masukanmu. Aspirasi kini sedang dalam moderasi oleh pengurus MPK.</p>
+      </div>
+    </div>
+
+    <!-- SECTION 1: FORM -->
+    <section id="section-form" class="max-w-2xl mx-auto block">
+      <div class="glass-card p-6 sm:p-10 rounded-3xl">
+        <div class="flex items-center gap-3 mb-2">
+          <div class="w-9 h-9 rounded-xl bg-maroon-50 text-maroon-700 flex items-center justify-center">
+            <i data-lucide="send" class="w-5 h-5"></i>
+          </div>
+          <h3 class="text-xl font-bold text-maroon-800">Formulir Pengajuan</h3>
+        </div>
+        <p class="text-xs text-gray-500 mb-8 pl-12">Isi data di bawah ini dengan jelas. Gunakan mode privasi jika diperlukan.</p>
+
+        <form id="form-aspirasi" class="space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1.5 flex items-center gap-1.5">
+                <i data-lucide="user" class="w-3.5 h-3.5 text-maroon-700"></i> Nama Lengkap *
+              </label>
+              <input type="text" id="input-nama" required placeholder="Contoh: Aditya Fadlan" class="glass-input w-full px-4 py-3 rounded-2xl outline-none text-sm font-medium text-gray-800">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1.5 flex items-center gap-1.5">
+                <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-maroon-700"></i> Kelas *
+              </label>
+              <select id="input-kelas" required class="glass-input w-full px-4 py-3 rounded-2xl outline-none text-sm font-medium text-gray-800 bg-white/80 cursor-pointer">
+                <option value="10.1">10.1</option> <option value="10.2">10.2</option> <option value="10.3">10.3</option>
+                <option value="11.1">11.1</option> <option value="11.7">11.7</option> <option value="11.8">11.8</option>
+                <option value="12.1">12.1</option> <option value="12.2">12.2</option> <option value="12.3">12.3</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1.5 flex items-center gap-1.5">
+              <i data-lucide="layers" class="w-3.5 h-3.5 text-maroon-700"></i> Kategori Aspirasi *
+            </label>
+            <select id="input-kategori" required class="glass-input w-full px-4 py-3 rounded-2xl outline-none text-sm font-medium text-gray-800 bg-white/80 cursor-pointer">
+              <option value="Fasilitas & Sarana Prasarana">Fasilitas & Sarana Prasarana</option>
+              <option value="KBM, Jadwal, & Kurikulum">KBM, Jadwal, & Kurikulum</option>
+              <option value="Kantin & Koperasi">Kantin & Koperasi Sekolah</option>
+              <option value="Ekstrakurikuler & Acara">Ekstrakurikuler & Acara (Pensi/Classmeet)</option>
+              <option value="Kebersihan, Toilet, & Lingkungan">Kebersihan, Toilet, & Lingkungan</option>
+              <option value="Lainnya / Ide Umum">Lainnya / Ide Umum</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1.5 flex items-center gap-1.5">
+              <i data-lucide="message-square-text" class="w-3.5 h-3.5 text-maroon-700"></i> Isi Aspirasi / Saran / Kritik *
+            </label>
+            <textarea id="input-aspirasi" required rows="4" placeholder="Jelaskan secara terperinci di sini..." class="glass-input w-full px-4 py-3.5 rounded-2xl outline-none text-sm font-medium text-gray-800 placeholder:text-gray-400"></textarea>
+          </div>
+
+          <!-- Mode Privasi -->
+          <div class="bg-maroon-700/5 p-4 rounded-2xl border border-maroon-700/15 flex items-start gap-3.5">
+            <input type="checkbox" id="input-anonim" class="mt-0.5 w-4 h-4 text-maroon-700 rounded cursor-pointer accent-maroon-700">
+            <label for="input-anonim" class="text-xs text-gray-600 cursor-pointer select-none leading-relaxed">
+              <span class="font-bold text-maroon-800 flex items-center gap-1.5">
+                <i data-lucide="shield-check" class="w-4 h-4 text-maroon-700"></i> Kirim Sebagai Mode Privasi (Anonim)
+              </span>
+              Identitas namamu akan <span class="font-semibold">disembunyikan</span> di mading publik, tetapi tercatat di admin panel MPK.
+            </label>
+          </div>
+
+          <button id="btn-submit-aspirasi" type="submit" class="w-full py-4 bg-gradient-to-r from-maroon-700 via-maroon-800 to-maroon-900 text-white font-semibold rounded-2xl shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 text-sm flex items-center justify-center gap-2">
+            <i data-lucide="send" class="w-4 h-4"></i>
+            <span>Kirim Aspirasi Sekarang</span>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- SECTION 2: MADING -->
+    <section id="section-mading" class="hidden">
+      <div class="text-center mb-8">
+        <h3 class="text-2xl font-extrabold text-maroon-800 tracking-tight">Mading Aspirasi Siswa</h3>
+        <p class="text-xs sm:text-sm text-gray-500 max-w-xl mx-auto mt-1">Daftar aspirasi yang telah disetujui dan sedang/telah ditindaklanjuti oleh pengurus MPK.</p>
+      </div>
+
+      <!-- Loading State -->
+      <div id="mading-loading" class="text-center py-20 hidden">
+        <i data-lucide="loader-2" class="w-10 h-10 text-maroon-700 animate-spin mx-auto mb-3"></i>
+        <p class="text-sm font-semibold text-gray-600">Memuat data dari database...</p>
+      </div>
+
+      <!-- Empty State -->
+      <div id="mading-empty" class="hidden text-center py-20 glass-card rounded-3xl">
+        <div class="w-16 h-16 rounded-3xl bg-maroon-50 text-maroon-700 flex items-center justify-center mx-auto mb-4 border border-maroon-100">
+          <i data-lucide="inbox" class="w-8 h-8"></i>
+        </div>
+        <h4 class="font-bold text-gray-800 text-base">Belum Ada Aspirasi Publik</h4>
+        <p class="text-xs text-gray-400 mt-1">Aspirasi sedang dalam proses moderasi tim MPK.</p>
+      </div>
+
+      <!-- Container Mading -->
+      <div id="mading-container" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+    </section>
+  </main>
+
+  <footer class="bg-maroon-900 text-maroon-200 py-8 text-center text-xs mt-16 z-10 relative">
+    <p class="font-bold text-white flex justify-center items-center gap-2 mb-2">
+      <i data-lucide="award" class="w-4 h-4 text-amber-300"></i> MPK MAN 1 Bekasi
+    </p>
+    <p class="opacity-80">Proker Aspirasi Siswa 2026</p>
+  </footer>
+
+  <!-- Supabase Library & Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
