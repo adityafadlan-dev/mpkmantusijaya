@@ -27,12 +27,42 @@ function setupTabNavigation() {
   });
 }
 
+function setupTabNavigation() {
+  const btnTabForm = document.getElementById("btn-tab-form");
+  const btnTabMading = document.getElementById("btn-tab-mading");
+  const sectionForm = document.getElementById("section-form");
+  const sectionMading = document.getElementById("section-mading");
+
+  function animateTransition(hideSection, showSection) {
+    hideSection.classList.add("hidden");
+    showSection.classList.remove("hidden");
+    showSection.classList.add("fade-up-enter");
+    
+    // Trigger reflow biar animasinya jalan
+    void showSection.offsetWidth; 
+    
+    showSection.classList.remove("fade-up-enter");
+    showSection.classList.add("fade-up-active");
+  }
+
+  btnTabForm.addEventListener("click", () => {
+    btnTabForm.className = "flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-sm bg-maroon-700 text-white shadow-lg shadow-maroon-700/25 transition-all duration-300 scale-[1.02]";
+    btnTabMading.className = "flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-sm bg-white/70 text-gray-600 border border-gray-200/80 hover:bg-white hover:text-maroon-700 transition-all duration-300";
+    animateTransition(sectionMading, sectionForm);
+  });
+
+  btnTabMading.addEventListener("click", () => {
+    btnTabMading.className = "flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-sm bg-maroon-700 text-white shadow-lg shadow-maroon-700/25 transition-all duration-300 scale-[1.02]";
+    btnTabForm.className = "flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-sm bg-white/70 text-gray-600 border border-gray-200/80 hover:bg-white hover:text-maroon-700 transition-all duration-300";
+    animateTransition(sectionForm, sectionMading);
+    renderMading();
+  });
+}
+
 function setupFormSubmit() {
   const form = document.getElementById("form-aspirasi");
   const btnSubmit = document.getElementById("btn-submit-aspirasi");
-  const alertSuccess = document.getElementById("alert-success");
 
-  // Tambahin async di sini
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -42,9 +72,8 @@ function setupFormSubmit() {
     const aspirasiInput = document.getElementById("input-aspirasi").value.trim();
     const anonimCheck = document.getElementById("input-anonim").checked;
 
-    if (!namaInput || !aspirasiInput) return alert("Mohon lengkapi form.");
+    if (!namaInput || !kelasInput || !aspirasiInput) return alert("Mohon lengkapi form.");
 
-    // Ganti tombol jadi loading
     btnSubmit.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Sedang Mengirim...`;
     btnSubmit.disabled = true;
 
@@ -60,22 +89,38 @@ function setupFormSubmit() {
       tanggapan: ""
     };
 
-    // Await untuk nunggu data beneran kesimpen di database Supabase
     await saveAspirasiData(newAspirasi);
 
-    // Kembalikan tombol seperti semula
     btnSubmit.innerHTML = `<i data-lucide="send" class="w-4 h-4"></i> <span>Kirim Aspirasi Sekarang</span>`;
     btnSubmit.disabled = false;
     if (window.lucide) { lucide.createIcons(); }
 
-    alertSuccess.classList.remove("hidden");
     form.reset();
 
-    setTimeout(() => {
-      alertSuccess.classList.add("hidden");
-    }, 5000);
+    // MUNCULIN MODAL ANIMASI SUKSES
+    const successModal = document.getElementById("success-modal");
+    const modalContent = document.getElementById("success-modal-content");
+    
+    successModal.classList.remove("opacity-0", "pointer-events-none");
+    modalContent.classList.remove("scale-90", "translate-y-8");
+    modalContent.classList.add("scale-100", "translate-y-0");
   });
 }
+
+// Fungsi menutup modal & loncat otomatis ke mading
+window.closeSuccessModal = function() {
+  const successModal = document.getElementById("success-modal");
+  const modalContent = document.getElementById("success-modal-content");
+  
+  successModal.classList.add("opacity-0", "pointer-events-none");
+  modalContent.classList.remove("scale-100", "translate-y-0");
+  modalContent.classList.add("scale-90", "translate-y-8");
+
+  // Tunggu animasi nutup selesai (300ms), lalu otomatis klik pindah ke mading
+  setTimeout(() => {
+    document.getElementById("btn-tab-mading").click();
+  }, 300);
+};
 
 // Bikin fungsi ini jadi async biar bisa nunggu data Supabase
 async function renderMading() {
